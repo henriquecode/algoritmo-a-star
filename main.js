@@ -1,3 +1,7 @@
+/**
+ * Aplicação de algoritmo 'A* / Pathfiding' para estudo
+ */
+
 const FIELD_SIZE = 400;
 const W_CANVAS = 440;
 const H_CANVAS = 440;
@@ -33,6 +37,19 @@ const TYPE_MOVE = {
     VH: 'vh'
 };
 
+/**
+ * MAPS - Usado para construir os obstaculos e dizer onde será o nó inicio e fim
+ * 
+ * Definir objeto dizendo:
+ * - Tipo com base em TYPE_CELL
+ * - R para o número da linha
+ * - C para o número da coluna
+ * 
+ * A chave de cada objeto aqui será a junção / concatenação de R e C
+ * 
+ * Obs.: O número de linha e coluna vai variar dependendo do tamanho do campo
+ * e dos nós(cada célula do campo)
+ */
 const MAPS = {
     55: {
         'R': 5,
@@ -157,7 +174,8 @@ var hero, indexPath = 0;
 
 function setup() {
     createCanvas(W_CANVAS, H_CANVAS);
-    frameRate(3);
+    
+    frameRate(3); // Definindo frameRate mais baixo para poder ver movimento devagar
 
     rows = FIELD_SIZE / NODE_SIZE;
     cols = FIELD_SIZE / NODE_SIZE;
@@ -173,22 +191,24 @@ function setup() {
         left: -1
     };
 
-    mainNodes = createGrid();
+    mainNodes = createGrid(); // Pede para criar grid
 
-    findPath(mainNodes.cellStart, mainNodes.cellEnd);
-    path = executePath(mainNodes.cellEnd, []);
-    hero = new Cell(mainNodes.cellStart.row, mainNodes.cellStart.column, TYPE_CELL.Hero);
+    findPath(mainNodes.cellStart, mainNodes.cellEnd); // Pede para calcular caminho da grid
+    path = executePath(mainNodes.cellEnd, []); // Executa a ordem do caminho
+    hero = new Cell(mainNodes.cellStart.row, mainNodes.cellStart.column, TYPE_CELL.Hero); // Cria um hero para caminhar
 }
 
 function draw() {
     background(51);
 
-    createNumberLineColumns();
+    createNumberLineColumns(); // Imprime numeração de linhas e colunas
 
+    // Desenha grid / campo
     for (var i = 0; i < grid.length; i++) {
         grid[i].show();
     }
 
+    // Faz o herói / personagem andar
     if (indexPath < path.length) {
         hero.row += path[indexPath].row - hero.row;
         hero.column += path[indexPath].column - hero.column;
@@ -203,9 +223,10 @@ function createNumberLineColumns() {
     fill(255, 255, 255, 0);
     
     for (var r = 1; r <= rows; r++) {
-        if (r > 1) {
-            text(r-1, NODE_SIZE/2, ((r * NODE_SIZE) - (NODE_SIZE/2))); // NUMBER ROWS
-            text(r-1, ((r * NODE_SIZE) - (NODE_SIZE/2)), NODE_SIZE/2); // NUMBER COLS
+
+        if (r > 0) {
+            text(r, NODE_SIZE/2, ((r * NODE_SIZE) + (NODE_SIZE/2)));
+            text(r, ((r * NODE_SIZE) + (NODE_SIZE/2)), NODE_SIZE/2);
             textAlign(CENTER);
         }
     }
