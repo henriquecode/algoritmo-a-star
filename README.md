@@ -17,4 +17,4 @@ Informações sobre o algoritmo: [Wikipedia](https://pt.wikipedia.org/wiki/Algor
 
 
 # Print exemplo
-![Labirinto](https://github.com/henriquecode/algoritmo-maze-generator/blob/master/maze-generator.png)
+![A-Star](https://github.com/henriquecode/algoritmo-a-star/blob/master/a-star.png)
